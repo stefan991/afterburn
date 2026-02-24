@@ -390,6 +390,7 @@ impl ProxmoxVECloudNetworkConfigEntry {
                 }
             }
 
+            // TODO: this doesn't allow DHCP both?
             if subnet.subnet_type == "dhcp" || subnet.subnet_type == "dhcp4" {
                 iface.dhcp = Some(DhcpSetting::V4)
             }
