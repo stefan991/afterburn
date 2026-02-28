@@ -5,6 +5,7 @@
 //! fetcher.
 
 use crate::providers::kubevirt;
+use crate::providers::hetzner::HetznerProvider;
 use crate::providers::proxmoxve::ProxmoxVEConfigDrive;
 use crate::providers::vmware::VmwareProvider;
 use crate::providers::MetadataProvider;
@@ -18,6 +19,7 @@ static KARGS_PATH: &str = "/etc/cmdline.d/50-afterburn-network-kargs.conf";
 /// Fetch network kargs for the given provider.
 pub(crate) fn fetch_network_kargs(provider: &str) -> Result<Option<String>> {
     match provider {
+        "hetzner" => HetznerProvider::try_new()?.rd_network_kargs(),
         "vmware" => VmwareProvider::try_new()?.rd_network_kargs(),
         "proxmoxve" => ProxmoxVEConfigDrive::try_new()?.rd_network_kargs(),
         "kubevirt" => kubevirt::try_new_provider_else_noop()?.rd_network_kargs(),
